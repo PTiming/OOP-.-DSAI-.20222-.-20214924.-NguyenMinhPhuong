@@ -1,0 +1,112 @@
+    public void findById(int id){
+        int found = -1;
+        for (int i=0;i<qtyOrders;i++){
+            if (itemsOrdered[i].getId() == id){
+                found = i;
+            }
+        }
+        switch (found){
+            case -1:
+                print("There is no such item in your cart.");
+                break;
+                
+            default:
+                itemsOrdered[found].toString();
+        }
+    }
+    
+    public void findByTitle(String title){
+        int found = -1;
+        for (int i=0;i<qtyOrders;i++){
+            if (itemsOrdered[i].isMatch(title)){
+                found = i;
+                break;
+            }
+        }
+        switch (found){
+            case -1:
+                print("There is no such item in your cart.");
+                break;
+                
+            default:
+                itemsOrdered[found].toString();
+        }
+    }
+    
+        public static void main(String[] args) {
+		DigitalVideoDisc jungleDVD = new DigitalVideoDisc("Jungle");
+	    DigitalVideoDisc cinderellaDVD = new DigitalVideoDisc("Cinderella");
+	    
+	    System.out.println(jungleDVD.getId());
+	    System.out.println(cinderellaDVD.getId());
+	    
+	    System.out.println(jungleDVD.getCategory());
+	    System.out.println(jungleDVD.getDirector());
+	}
+	public String toString(){
+	    String stringItem;
+	    
+        if (this.getCategory() = null){
+            stringItem = String.format("DVD - [%s]",this.getTitle())
+            return stringItem;
+        }
+        else if (this.getDirector() = null){
+            stringItem = String.format("DVD - [%s] - [%s]: [%f]$",this.getTitle(),this.getCategory(),this.getCost())
+            return stringItem;
+        }
+        else if (this.getLength() = null){
+            stringItem = String.format("DVD - [%s] - [%s] - [%s]: [%f]$",this.getTitle(),this.getCategory(),this.getDirector(),this.getCost())
+            return stringItem;
+        }
+        else{
+            stringItem = String.format("DVD - [%s] - [%s] - [%s] - [%d]: [%f]$",this.getTitle(),this.getCategory(),this.getDirector(),this.getLength(),this.getCost())
+            return stringItem;
+        }
+    }
+    
+    public class TestPassingParameter
+{
+	public static void main(String[] args) {
+		DigitalVideoDisc jungleDVD = new DigitalVideoDisc("Jungle");
+	    DigitalVideo cinderellaDVD = new DigitalVidelDisc("Cinderella");
+	    
+	    swap(jungleDVD,cinderellaDVD);
+	    System.out.println("jungle dvd title: " + cinderella.getTitle());
+	    System.out.println("cinderella dvd title: " + jungleDVD.getTitle());
+	    
+	    changeTitle(jungleDVD,cinderellaDVD.getTitle());
+	    System.out.println("jungle dvd title: " + jungleDVD.getTitle());
+	    
+	    
+	    
+	    
+	}
+	
+	public static void swap(Object o1, Object o2){
+	    Object tmp = o1;
+	    o1 = o2;
+	    o2 = tmp;
+	    
+	}
+	
+	public static void changeTitle(DigitalVideoDisc dvd, String title){
+	    String oldTitle = dvd.getTitle();
+	    dvd.setTitle(title);
+	    dvd = new DigitalVideoDisc(oldTitle);
+	    
+	}
+	
+	public static void swap(Object o1, Object o2){
+	    Object tmp.title = o1.getTitle();
+	    o1.title = o2.getTitle();
+	    o2.title = tmp.getTitle();
+}
+
+public class StoreTest 
+{
+    public int MAX_DVD = new 1000000;
+    private static DigitalVideoDisc itemInStore[] = new DigitalVideoDisc[MAX_DVD]
+    
+    public addDVD
+	
+}
