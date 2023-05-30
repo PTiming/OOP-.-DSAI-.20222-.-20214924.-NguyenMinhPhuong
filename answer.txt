@@ -1,0 +1,259 @@
+--2--
+    public void addDigitalVideoDisc(DigitalVideoDisc[] disc) {
+        int numOfDisc = 1;
+        while (disc[numOfDisc-1] != null){
+            numOfDisc += 1;
+        }
+        if (qtyOrders + numOfDisc >= 20){
+            System.out.println("The cart is full.");
+        }
+        else {
+            for (int i=0;i<numOfDisc;i++){
+                itemsOrdered[qtyOrders] = disc[i];
+                qtyOrders += 1;
+                System.out.println("The item has been added.");
+            }
+            
+
+        }
+        
+    }
+    public void addDigitalVideoDisc(DigitalVideoDisc disc1,DigitalVideoDisc disc2) {
+        
+        if (qtyOrders >= 19){
+            System.out.println("The cart is full.");
+        }
+        else {
+            itemsOrdered[qtyOrders] = disc1;
+            qtyOrders += 1;
+            itemsOrdered[qtyOrders] = disc2;
+            qtyOrders += 1;
+            System.out.println("Two items have been added.");
+
+        }
+    }
+--3--
+Pass by value
+
+public class TestPassingParameter
+{
+	public static void main(String[] args) {
+		DigitalVideoDisc jungleDVD = new DigitalVideoDisc("Jungle");
+	    DigitalVideoDisc cinderellaDVD = new DigitalVideoDisc("Cinderella");
+	    
+	    swap(jungleDVD,cinderellaDVD);
+	    System.out.println("jungle dvd title: " + cinderellaDVD.getTitle());
+	    System.out.println("cinderella dvd title: " + jungleDVD.getTitle());
+	    
+	    changeTitle(jungleDVD,cinderellaDVD.getTitle());
+	    System.out.println("jungle dvd title: " + jungleDVD.getTitle());
+	}
+	
+	public static void swap(Object o1, Object o2){
+	    Object tmp = o1;
+	    o1 = o2;
+	    o2 = tmp;
+	    
+	}
+	
+	public static void changeTitle(DigitalVideoDisc dvd, String title){
+	    String oldTitle = dvd.getTitle();
+	    dvd.setTitle(title);
+	    dvd = new DigitalVideoDisc(oldTitle);
+	    
+	}
+	
+	public static void swap(DigitalVideoDisc o1, DigitalVideoDisc o2){
+	    DigitalVideoDisc tmp = new DigitalVideoDisc("a");
+        tmp.setTitle(o1.getTitle());
+	    o1.setTitle(o2.getTitle());
+	    o2.setTitle(tmp.getTitle());
+    }
+}
+--5--
+    private static int nbDigitalVideoDiscs = 0;
+    private int id;
+
+    public DigitalVideoDisc(String title) {
+        this.title = title;
+        nbDigitalVideoDiscs += 1;
+        this.id = nbDigitalVideoDiscs;
+    }
+    public DigitalVideoDisc(String title, String category, float cost) {
+        this.title = title;
+        this.category = category;
+        this.cost = cost;
+        nbDigitalVideoDiscs += 1;
+        this.id = nbDigitalVideoDiscs;
+    }
+    public DigitalVideoDisc(String title, String category, String director, float cost) {
+        this.title = title;
+        this.category = category;
+        this.director = director;
+        this.cost = cost;
+        nbDigitalVideoDiscs += 1;
+        this.id = nbDigitalVideoDiscs;
+    }
+    public DigitalVideoDisc(String title, String category, String director, int length, float cost) {
+        this.title = title;
+        this.category = category;
+        this.director = director;
+        this.length = length;
+        this.cost = cost;
+        nbDigitalVideoDiscs += 1;
+        this.id = nbDigitalVideoDiscs;
+    }
+--6--
+    public String toString(){
+	    String stringItem;
+	    
+        if (this.getCategory() == null){
+            stringItem = String.format("DVD - [%s]",this.getTitle());
+            return stringItem;
+        }
+        else if (this.getDirector() == null){
+            stringItem = String.format("DVD - [%s] - [%s]: [%f]$",this.getTitle(),this.getCategory(),this.getCost());
+            return stringItem;
+        }
+        else if (this.getLength() == 0){
+            stringItem = String.format("DVD - [%s] - [%s] - [%s]: [%f]$",this.getTitle(),this.getCategory(),this.getDirector(),this.getCost());
+            return stringItem;
+        }
+        else{
+            stringItem = String.format("DVD - [%s] - [%s] - [%s] - [%d]: [%f]$",this.getTitle(),this.getCategory(),this.getDirector(),this.getLength(),this.getCost());
+            return stringItem;
+        }
+    }
+    public void print(){
+        System.out.println("***********************CART***********************");
+        System.out.println("Ordered Items: ");
+        for(int i=0;i<qtyOrders;i++){
+            System.out.println(itemsOrdered[i].toString());
+        }
+        System.out.println("Total cost: "+totalCost());
+        System.out.println("***************************************************");
+
+    }
+    public void findById(int id){
+        int found = -1;
+        for (int i=0;i<qtyOrders;i++){
+            if (itemsOrdered[i].getId() == id){
+                found = i;
+            }
+        }
+        if (found == -1){
+            System.out.println("There is no such item in your cart.");
+        }
+        else
+            System.out.println(itemsOrdered[found].toString());
+    }
+    
+    public boolean isMatch(String title){
+        return this.getTitle() == title;
+    }
+    
+    public void findByTitle(String title){
+        int found = -1;
+        for (int i=0;i<qtyOrders;i++){
+            if (itemsOrdered[i].isMatch(title)){
+                found = i;
+                break;
+            }
+        }
+        if (found == -1){
+            System.out.println("There is no such item in your cart.");
+        }
+        else
+            System.out.println(itemsOrdered[found].toString());
+        }
+    public class CartTest {
+    public static void main(String[] args){
+        Cart cart = new Cart();
+        DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King","Animation","Roger Allers", 87,19.95f);
+        cart.addDigitalVideoDisc(dvd1);
+        DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars","Science Fiction","George Lucas", 87,24.95f);
+        cart.addDigitalVideoDisc(dvd2);
+        DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin","Animation",18.99f);
+        cart.addDigitalVideoDisc(dvd3);
+
+        cart.print();
+        cart.findById(1);
+        cart.findByTitle("Aladin");
+    }
+}
+--7--
+    public class Store {
+    public int MAX_DVD = 1000000;
+    private DigitalVideoDisc itemInStore[] = new DigitalVideoDisc[MAX_DVD];
+    private int numOfDVD = 0;
+    
+    public void addDVD(DigitalVideoDisc dvd){
+        itemInStore[numOfDVD] = dvd;
+        numOfDVD += 1;
+        System.out.println("An item has been added.");
+    }
+	
+    public void removeDVD(DigitalVideoDisc dvd){
+        if (numOfDVD == 0){
+            System.out.println("There is no item in store.");
+        }
+        else{
+            int findDvd = -1;
+            for(int i=0;i<numOfDVD;i++){
+                if (dvd.getTitle() == itemInStore[i].getTitle()){
+                    findDvd = i;
+                    break;
+                }
+            }
+            if (findDvd == -1){
+                System.out.println("There is no such item in store.");
+            }
+            else{
+                for(int k=findDvd;k<numOfDVD-1;k++){
+                    itemInStore[k] = itemInStore[k+1];
+                }
+                itemInStore[numOfDVD-1] = null;
+                numOfDVD -= 1;
+                System.out.println("An item has been removed.");
+            }
+        }
+    }
+}
+public class StoreTest 
+{
+    public static void main(String[] args){
+        Store store = new Store();
+        DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King","Animation","Roger Allers", 87,19.95f);
+        store.addDVD(dvd1);
+        DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars","Science Fiction","George Lucas", 87,24.95f);
+        store.addDVD(dvd2);
+        DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin","Animation",18.99f);
+        store.addDVD(dvd3);
+        
+        store.removeDVD(dvd2);
+
+
+    }
+}
+--9--
+public class ConcatenationInLoops {
+    public static void main(String[] args){
+        Random r = new Random(123);
+        long start = System.currentTimeMillis();
+        String s = "";
+        for (int i = 0 i< 65536; i++){
+            s += r.nextInt(2);
+        }
+        System.out.println(System.currentTimeMillis() - start);
+        
+        r = new Random(123);
+        start = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0;i<65536;i++){
+            sb.append(r.nextInt(2));
+        }
+        s = sb.toString();
+        System.out.println(System.currentTimeMillis() - start);
+    }
+}
+
