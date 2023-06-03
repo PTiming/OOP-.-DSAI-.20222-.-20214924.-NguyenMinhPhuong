@@ -1,0 +1,509 @@
+// 3
+import java.util.ArrayList;
+import java.util.List;
+
+public class Book extends Media{
+    private List<String> authors = new ArrayList<String>();
+    public Book(){
+        super();
+    }
+
+    public int checkAuthor(String authorName){
+        int numOfAuthor = authors.size();
+        for (int i=0;i<numOfAuthor;i++){
+            if (authors.get(i) == authorName){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public void addAuthor(String authorName){
+        if (checkAuthor(authorName) == -1){
+            authors.add(authorName);
+        }
+    }
+    public void removeAuthor(String authorName){
+        if (checkAuthor(authorName) != -1){
+            authors.remove(checkAuthor(authorName));
+        }
+    }
+    public String toString(){
+	    String stringItem;
+	    
+        if (this.getCategory() == null){
+            stringItem = String.format("DVD - [%s]",this.getTitle());
+            return stringItem;
+        }
+        else{
+            stringItem = String.format("DVD - [%s] - [%s]: [%f]$",this.getTitle(),this.getCategory(),this.getCost());
+            return stringItem;
+        }
+
+    }
+}
+
+//4
+public class Media {
+    protected static int nbMedia = 0;
+    protected int id;
+    protected String title;
+    protected String category;
+    protected float cost;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public String getCategory() {
+        return category;
+    }
+    public float getCost() {
+        return cost;
+    }
+    public Media(String title) {
+        this.title = title;
+        nbMedia += 1;
+        this.id = nbMedia;
+    }
+    public Media(String title, String category, float cost) {
+        this.title = title;
+        this.category = category;
+        this.cost = cost;
+        nbMedia += 1;
+        this.id = nbMedia;
+    }
+    public boolean equals(Object o){
+        if (o instanceof Media){
+            Media m1 = (Media) o;
+            return m1.title == this.title;
+        }
+        else{
+            return false;
+        }
+    }
+}
+//5
+public class Disc extends Media{
+    protected int length;
+    protected String director;
+    public Disc(){
+        super();
+    }
+    
+    public int getLength() {
+        return length;
+    }
+    public String getDirector() {
+        return director;
+    }
+    public Disc(String title, String category, String director, float cost) {
+        this.title = title;
+        this.category = category;
+        this.director = director;
+        this.cost = cost;
+        nbMedia += 1;
+        this.id = nbMedia;
+    }
+    public Disc(String title, String category, String director, int length, float cost) {
+        this.title = title;
+        this.category = category;
+        this.director = director;
+        this.length = length;
+        this.cost = cost;
+        nbMedia += 1;
+        this.id = nbMedia;
+    }
+}
+public class Track {
+    private String title;
+    private int length;
+
+    public Track(String title, int length) {
+        this.title = title;
+        this.length = length;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public int getLength() {
+        return length;
+    }
+    public void play() {
+        System.out.println("Playing DVD: " + this.getTitle());
+        System.out.println("DVD length: " + this.getLength());
+    }
+    public boolean equals(Object o){
+        if (o instanceof Track){
+            Track t1 = (Track) o;
+            return t1.title == this.title && t1.length == this.length;
+        }
+        else{
+            return false;
+        }
+        
+    }
+}
+import java.util.ArrayList;
+
+public class CompactDisc extends Disc implements Playable{
+    private String artist;
+    private ArrayList<Track> tracks = new ArrayList<Track>();
+
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public int contains(Track track){
+        int numOfTrack = tracks.size();
+        for (int i=0;i<numOfTrack;i++){
+            if (tracks.get(i).getTitle() == track.getTitle()){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public void addTrack(Track track){
+        if (contains(track) == -1){
+            tracks.add(track);
+        }
+    }
+    public void removeAuthor(Track track){
+        if (contains(track) != -1){
+            tracks.remove(contains(track));
+        }
+    }
+
+    public int getLength(){
+        int numOfTrack = tracks.size();
+        int timeLength = 0;
+        for (int i=0;i<numOfTrack;i++){
+            timeLength += tracks.get(i).getLength();
+        }
+        return timeLength;
+    }
+
+    public void play(){
+        System.out.println("Artist: "+this.getArtist());
+        System.out.println("Number of tracks: "+tracks.size());
+        for(int i = 0;i<tracks.size();i++){
+            tracks.get(i).play();
+        }
+    }
+
+    public String toString(){
+	    String stringItem;
+        stringItem = String.format("DVD - [%s] - [%s]",this.getTitle(),this.getLength());
+        return stringItem;
+    }
+}
+//6
+interface Playable {
+    public void play();
+}
+    public void play() {
+        System.out.println("Playing DVD: " + this.getTitle());
+        System.out.println("DVD length: " + this.getLength());
+    }
+
+    public void play() {
+        System.out.println("Playing DVD: " + this.getTitle());
+        System.out.println("DVD length: " + this.getLength());
+    }
+    public void play(){
+        System.out.println("Artist: "+this.getArtist());
+        System.out.println("Number of tracks: "+tracks.size());
+        for(int i = 0;i<tracks.size();i++){
+            tracks.get(i).play();
+        }
+    }
+//7
+    public void addMedia(Media media) {
+        if (itemsOrdered.size() == 20){
+            System.out.println("The cart is full.");
+        }
+        else if (contains(media) != -1){
+            System.out.println("The item has been in the cart.");
+        }
+        else {
+            itemsOrdered.add(media);
+            System.out.println("The item has been added.");
+
+        }
+    }
+
+    public void removeMedia(Media media) {
+        if (itemsOrdered.size() != 0){
+            if (contains(media) != -1){
+                itemsOrdered.remove(contains(media));
+                System.out.println("The item has been removed.");
+            }
+            else{
+                System.out.println("There is no such item in the cart.");
+            }
+        }
+        else{
+            System.out.println("No item.");
+        }
+    }
+
+    public float totalCost() {
+        float cos = 0;
+        for(int i=0;i<itemsOrdered.size();i++){
+            cos += itemsOrdered.get(i).getCost();
+        }
+        return cos;
+    }
+//8
+import java.util.ArrayList;
+public class Store {
+    private ArrayList<Media> itemInStore = new ArrayList<Media>();;
+    
+    public void addMedia(Media media) {
+        itemInStore.add(media);
+        System.out.println("The item has been added.");
+    }
+
+    
+    public void removeMedia(Media media) {
+        boolean checkMedia = false;
+        for (int i = 0;i<itemInStore.size();i++){
+            if (itemInStore.get(i).equals(media)){
+                itemInStore.remove(i);
+                System.out.println("The item has been removed.");
+                break;
+            }
+        }
+        if (checkMedia == false){
+            System.out.println("There is no such item.");
+        }
+    }
+ //10
+     public int contains(Track track){
+        int numOfTrack = tracks.size();
+        for (int i=0;i<numOfTrack;i++){
+            if (tracks.get(i).getTitle() == track.getTitle()){
+                return i;
+            }
+        }
+        return -1;
+    }
+     public boolean contains(String title){
+        int numOfMedia = itemsOrdered.size();
+        for (int i=0;i<numOfMedia;i++){
+            if (itemsOrdered.get(i).getTitle() == title){
+                return true;
+            }
+        }
+        return false;
+    }
+//11
+ Polymorphism allows us to perform a toString action in different ways, polymorphism allows us to define one interface and have multiple implementations.
+ 
+ //13
+ import java.util.Scanner;
+
+public class Aims {
+
+    public static void showMenu() {
+        System.out.println("AIMS: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. View store");
+        System.out.println("2. Update store");
+        System.out.println("3. See current cart");
+        System.out.println("0. Exit");
+        System.out.println("--------------------------------");
+        System.out.println("Please choose a number: 0-1-2-3");
+        }
+        
+
+    public static void storeMenu() {
+        System.out.println("Options: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. See a media’s details");
+        System.out.println("2. Add a media to cart");
+        System.out.println("3. Play a media");
+        System.out.println("4. See current cart");
+        System.out.println("0. Back");
+        System.out.println("--------------------------------");
+        System.out.println("Please choose a number: 0-1-2-3-4");
+        }
+    
+    public static void mediaDetailsMenu() {
+        System.out.println("Options: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. Add to cart");
+        System.out.println("2. Play");
+        System.out.println("0. Back");
+        System.out.println("--------------------------------");
+        System.out.println("Please choose a number: 0-1-2");
+        }
+    
+
+    public static void cartMenu() {
+        System.out.println("Options: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. Filter medias in cart");
+        System.out.println("2. Sort medias in cart");
+        System.out.println("3. Remove media from cart");
+        System.out.println("4. Play a media");
+        System.out.println("5. Place order");
+        System.out.println("0. Back");
+        System.out.println("--------------------------------");
+        System.out.println("Please choose a number: 0-1-2-3-4-5");
+        }
+            
+        public static void playMedia(Store store, Scanner myInput){
+
+            String userInputTitle = myInput.nextLine();
+            if (store.contains(userInputTitle) != -1){
+                if ((store.getItemInStore().get(store.contains(userInputTitle)) instanceof CompactDisc)){
+                    CompactDisc cd = (CompactDisc) store.getItemInStore().get(store.contains(userInputTitle));
+                    cd.play();
+                }
+                else if (store.getItemInStore().get(store.contains(userInputTitle)) instanceof DigitalVideoDisc){
+                    DigitalVideoDisc dvd = (DigitalVideoDisc) store.getItemInStore().get(store.contains(userInputTitle));
+                    dvd.play();
+                }
+            }
+            else{
+                System.out.println("There is no such item.");
+            }
+        }
+        public static void addToCart(Cart cart, Store store, Scanner myInput) {
+            String userInputTitle = myInput.nextLine();
+            if (store.contains(userInputTitle) != -1){
+                cart.addMedia(store.getItemInStore().get(store.contains(userInputTitle)));
+                System.out.println(cart.getItemsOrdered().size());
+            }
+            else{
+                System.out.println("There is no such item.");
+            }
+        }
+        public static void seeCurrentCart(Cart cart, Store store, Scanner myInput) {
+            String userInputCC;
+            cart.print();
+            do{
+                cartMenu();
+                userInputCC = myInput.nextLine();
+                if (userInputCC == "1"){
+
+                }
+                else if (userInputCC == "2"){
+                    System.out.println("Options: ");
+                    System.out.println("--------------------------------");
+                    System.out.println("1. Sort by id.");
+                    System.out.println("2. Sort by title.");
+                    System.out.println("--------------------------------");
+                    System.out.println("Please choose a number: 1-2");
+                    String userInput = myInput.nextLine();
+                    if (userInput == "1"){
+                        String userInputId =  myInput.nextLine();
+                        cart.findById(Integer.parseInt(userInputId));
+                    }
+                    else{
+                        String userInputTitle =  myInput.nextLine();
+                        cart.findByTitle(userInputTitle);
+                    }
+                }
+                else if (userInputCC == "3"){
+                    String userInputTitle = myInput.nextLine();
+                    if (store.contains(userInputTitle) != -1){
+                        cart.removeMedia(store.getItemInStore().get(store.contains(userInputTitle)));
+                    }
+                    else{
+                        System.out.println("There is no such item.");
+            }
+                }
+                else if (userInputCC == "4"){
+                    playMedia(store, myInput);
+                }
+                else if (userInputCC == "5"){
+                    System.out.println("An order has been created.");
+                    cart = new Cart();
+                }
+            }
+            while (userInputCC != "0");
+        }
+
+
+
+
+
+    public static void main(String[] agrs) {
+        Cart cart = new Cart();
+        Store store = new Store();
+
+        Scanner myInput = new Scanner(System.in);
+        String userInputShM;
+        do{
+            showMenu();
+            userInputShM = myInput.nextLine();
+            if (userInputShM == "1"){
+                String userInputStM;
+                do{
+                    store.print();
+                    storeMenu();
+                    userInputStM = myInput.nextLine();
+                    if (userInputStM == "1"){
+                        String userInputTitleStM = myInput.nextLine();
+                        if (store.contains(userInputTitleStM) != -1){
+                            store.getItemInStore().get(store.contains(userInputTitleStM)).toString(); // get detailed
+
+                            String userInputMDM;
+                            do{
+                                mediaDetailsMenu();
+                                userInputMDM = myInput.nextLine();
+                                if (userInputMDM == "1"){
+                                    addToCart(cart, store, myInput);
+                                }
+                                else if (userInputMDM == "2"){
+                                    playMedia(store,myInput);
+                                }
+                    
+                            }
+                            while (userInputMDM != "0");
+                        }
+                    }
+                    else if (userInputStM == "2"){
+                        addToCart(cart, store, myInput);
+                    }
+                    else if (userInputStM == "3"){
+                        playMedia(store, myInput);
+                    }
+                    else if (userInputStM == "4"){
+                        seeCurrentCart(cart, store, myInput);
+                    }
+
+                }
+                while (userInputStM != "0");
+            }
+            else if (userInputShM == "2"){
+                String userInput = myInput.nextLine();
+                System.out.println("Options: ");
+                System.out.println("--------------------------------");
+                System.out.println("1. Add to store");
+                System.out.println("2. Remove from store");
+                System.out.println("--------------------------------");
+                System.out.println("Please choose a number: 1-2");
+
+            }
+            else if (userInputShM == "3"){
+                seeCurrentCart(cart, store, myInput);
+                
+            }
+            
+        }
+        while (userInputShM != "0");
+    }
+
+    
+
+}
